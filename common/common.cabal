@@ -4,6 +4,9 @@ cabal-version: >= 1.2
 build-type: Simple
 
 library
+  ghc-options: -Werror -Wall -Wcompat -Wincomplete-uni-patterns -Widentities
+  -- if impl(ghcjs -any)
+  --   ghc-options:       -dedupe
   hs-source-dirs: src
   build-depends: base
                , obelisk-route

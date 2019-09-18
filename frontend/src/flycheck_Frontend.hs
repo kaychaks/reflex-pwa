@@ -1,6 +1,7 @@
 {-# LANGUAGE DataKinds         #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TypeApplications  #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 module Frontend where
 
 import qualified Data.Text                as T
@@ -11,8 +12,11 @@ import           Reflex.Dom.Core
 import           Common.Api
 import           Common.Route
 import           Obelisk.Generated.Static
- 
+import Data.Map
 
+
+button_ :: forall t m a. DomBuilder t m => Map T.Text T.Text -> m a -> m (Event t ())
+button_ mp m = elAttr' "button" mp m >>= return . domEvent Click . fst
 
 frontend :: Frontend (R FrontendRoute)
 frontend = Frontend
@@ -40,5 +44,8 @@ frontend = Frontend
       el "p" $ text $ T.pack commonStuff
       elAttr "img" ("src" =: static @"obelisk.jpg") blank
 
-      
+      evNot <- button_ ("type" =: "button" <> "class" =: "btn btn-primary") $ text "Notifications"
+      let evNotTrace = traceEventWith (const "Clicked") evNot
+      _ <- holdDyn () evNotTrace
+      return ()
   }

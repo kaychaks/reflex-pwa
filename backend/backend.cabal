@@ -12,6 +12,10 @@ library
                , frontend
                , obelisk-backend
                , obelisk-route
+               , aeson
+               , dependent-sum
+               , snap-core
+               , text
   exposed-modules:
     Backend
   ghc-options: -Wall

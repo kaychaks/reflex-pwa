@@ -1,7 +1,7 @@
-{-# LANGUAGE DataKinds         #-}
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE TypeApplications  #-}
+{-# LANGUAGE DataKinds           #-}
+{-# LANGUAGE OverloadedStrings   #-}
 {-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE TypeApplications    #-}
 module Frontend where
 
 import qualified Data.Text                as T
@@ -11,8 +11,8 @@ import           Reflex.Dom.Core
 
 import           Common.Api
 import           Common.Route
+import           Data.Map
 import           Obelisk.Generated.Static
-import Data.Map
 
 
 button_ :: forall t m a. DomBuilder t m => Map T.Text T.Text -> m a -> m (Event t ())
@@ -46,6 +46,9 @@ frontend = Frontend
 
       evNot <- button_ ("type" =: "button" <> "class" =: "btn btn-primary") $ text "Notifications"
       let evNotTrace = traceEventWith (const "Clicked") evNot
-      e <- holdDyn () evNotTrace
+      _ <- holdDyn () evNotTrace
+  --     b <- toggle False evNotTrace
+  --     el "div" $ do
+  --       display $ not <$> b
       return ()
   }

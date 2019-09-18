@@ -13,9 +13,13 @@ library
                , obelisk-generated-static
                , text
                , ghcjs-dom
+               , containers
+               , reflex-dom-contrib
   exposed-modules:
     Frontend
-  ghc-options: -Wall
+  ghc-options: -Werror -Wall -Wcompat -Wincomplete-uni-patterns -Widentities
+  if impl(ghcjs -any)
+    ghc-options:       -dedupe
 
 executable frontend
   main-is: main.hs
@@ -28,6 +32,9 @@ executable frontend
                , obelisk-generated-static
                , frontend
   --TODO: Make these ghc-options optional
-  ghc-options: -threaded
+  ghc-options: -Werror -Wall -Wcompat -Wincomplete-uni-patterns -Widentities -threaded -rtsopts -with-rtsopts=-N
   if os(darwin)
      ghc-options: -dynamic
+  if impl(ghcjs -any)
+    ghc-options:       -dedupe
+    cpp-options:       -DGHCJS_BROWSER
